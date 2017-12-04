@@ -1,36 +1,34 @@
 Dado("que estou na pagina inicial") do
-  visit 'http://localhost:4200/'
+  @page = HomePage.new
+  @page.home_page
 end
 
-Quando("selecionei o botao Ver Restaurantes") do
-  click_on "Ver Restaurantes"
+Quando("seleciono Ver Restaurantes") do
+  @page.see_restaurants
 end
 
-Entao("posso visualizar a pagina com os restaurentes") do
-  visit 'http://localhost:4200/restaurants'
+Entao("visualizo a pagina com os restaurantes") do
+  @page.all_restaurants
 end
 
-Dado("que selecionei o botao Ver Restaurantes") do
-  click_on "Ver Restaurantes"
-end
-
-Quando("visualizo o campo de busca") do
-  page.find('body > mt-app > div > div > div > mt-restaurants > section.content-header > h1 > a > i').click
-  find(:css, "body > mt-app > div > div > div > mt-restaurants > section.content-header > div > div > form > div > input").set("Padaria")
+Dado("que estou na tela de listagem de restaurante") do
+  @busca = BuscaPage.new
+  @busca.list_restaurants
 end
 
 Quando("pesquisar o restaurante") do
-  page.all(:css, 'body > mt-app > div > div > div > mt-restaurants > section.content-header > div > div > form > div > input')[0].click
+  @busca.seach_restaurant
 end
 
-Entao("posso visualizar o restaurante escolhido") do
-  page.has_content?("Padaria")
+Entao("devo visualizar o restaurante escolhido") do
+  @busca.result_restaurant
 end
 
-Quando("selecionar o restaurante") do
-  page.find('body > mt-app > div > div > div > mt-restaurants > section.content > div > div:nth-child(1)').click
+Quando("seleciono o restaurante pesquisado") do
+  @busca.select_restaurant
 end
 
-Entao("posso visualizar os produtos do restaurante") do
-  page.has_content?("Padaria")
+Entao("devo visualizar o restaurante selecionado") do
+  @busca.result_restaurant
+  sleep(3)
 end
